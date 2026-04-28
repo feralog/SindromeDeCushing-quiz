@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Síndrome de Cushing</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; color: #1a1a1a; min-height: 100vh; }
+  header { background: #1e3a5f; color: white; padding: 20px 30px; text-align: center; }
+  header h1 { font-size: 22px; margin-bottom: 4px; }
+  header p { font-size: 13px; opacity: 0.8; }
+  .quiz-container { max-width: 800px; margin: 30px auto; padding: 0 16px 60px; }
+  #startScreen { background: white; border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  #startScreen h2 { font-size: 20px; color: #1e3a5f; margin-bottom: 12px; }
+  #startScreen p { font-size: 14px; color: #555; margin-bottom: 24px; line-height: 1.6; }
+  .progress-bar-bg { background: #dde3ea; border-radius: 8px; height: 8px; margin-bottom: 8px; }
+  .progress-bar-fill { background: #2563eb; height: 8px; border-radius: 8px; transition: width 0.4s ease; }
+  .progress-label { font-size: 12px; color: #666; margin-bottom: 20px; }
+  .question-card { background: white; border-radius: 12px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 16px; }
+  .question-number { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #2563eb; letter-spacing: 1px; margin-bottom: 10px; }
+  .question-text { font-size: 15px; line-height: 1.65; color: #1a1a1a; margin-bottom: 22px; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option-btn { background: #f7f9fc; border: 2px solid #dde3ea; border-radius: 8px; padding: 12px 16px; text-align: left; font-size: 14px; cursor: pointer; transition: background 0.15s, border-color 0.15s; line-height: 1.5; }
+  .option-btn:hover:not(:disabled) { background: #e8f0fe; border-color: #2563eb; }
+  .option-btn.correct { background: #d1fae5; border-color: #16a34a; color: #166534; }
+  .option-btn.wrong { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+  .option-btn:disabled { cursor: default; }
+  .explanation { display: none; background: #f0fdf4; border-left: 4px solid #16a34a; border-radius: 0 8px 8px 0; padding: 14px 16px; margin-top: 14px; font-size: 13px; line-height: 1.6; color: #166534; }
+  .explanation.show { display: block; }
+  .btn-next { display: none; margin-top: 18px; background: #2563eb; color: white; border: none; border-radius: 8px; padding: 12px 28px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .btn-next:hover { background: #1d4ed8; }
+  .btn-next.show { display: inline-block; }
+  .btn-primary { background: #2563eb; color: white; border: none; border-radius: 8px; padding: 14px 36px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .btn-primary:hover { background: #1d4ed8; }
+  #resultScreen { display: none; background: white; border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .score-circle { width: 120px; height: 120px; border-radius: 50%; background: #1e3a5f; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; }
+  .score-circle .score-num { font-size: 32px; font-weight: 700; }
+  .score-circle .score-denom { font-size: 13px; opacity: 0.8; }
+  #resultScreen h2 { font-size: 20px; color: #1e3a5f; margin-bottom: 10px; }
+  #resultScreen p { font-size: 14px; color: #555; margin-bottom: 24px; }
+  .stats-row { display: flex; justify-content: center; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+  .stat-box { background: #f7f9fc; border-radius: 8px; padding: 12px 20px; text-align: center; min-width: 90px; }
+  .stat-box .stat-val { font-size: 22px; font-weight: 700; }
+  .stat-box .stat-lbl { font-size: 11px; color: #888; margin-top: 2px; }
+  .stat-box.green .stat-val { color: #16a34a; }
+  .stat-box.red .stat-val { color: #dc2626; }
+  .stat-box.blue .stat-val { color: #2563eb; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Síndrome de Cushing</h1>
+  <p>Endocrinologia — Saúde do Adulto e do Idoso</p>
+</header>
+
+<div class="quiz-container">
+  <div id="startScreen">
+    <h2>Quiz de Revisão</h2>
+    <p>22 questões cobrindo etiologia, diagnóstico, tratamento, insuficiência adrenal e casos clínicos.<br><br>Responda cada questão e veja a explicação antes de avançar.</p>
+    <button class="btn-primary" onclick="startQuiz()">Começar Quiz</button>
+  </div>
+
+  <div id="quizArea" style="display:none;">
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+    <div class="progress-label" id="progressLabel">Questão 0 de 22</div>
+    <div class="question-card" id="questionCard">
+      <div class="question-number" id="questionNumber"></div>
+      <div class="question-text" id="questionText"></div>
+      <div class="options" id="optionsContainer"></div>
+      <div class="explanation" id="explanation"></div>
+      <button class="btn-next" id="btnNext" onclick="nextQuestion()">Próxima questão →</button>
+    </div>
+  </div>
+
+  <div id="resultScreen">
+    <div class="score-circle">
+      <span class="score-num" id="scoreFinal">0</span>
+      <span class="score-denom" id="scoreDenom">de 22</span>
+    </div>
+    <h2 id="resultTitle"></h2>
+    <p id="resultMsg"></p>
+    <div class="stats-row">
+      <div class="stat-box green"><div class="stat-val" id="statCorrect">0</div><div class="stat-lbl">Acertos</div></div>
+      <div class="stat-box red"><div class="stat-val" id="statWrong">0</div><div class="stat-lbl">Erros</div></div>
+      <div class="stat-box blue"><div class="stat-val" id="statPct">0%</div><div class="stat-lbl">Aproveitamento</div></div>
+    </div>
+    <button class="btn-primary" onclick="restartQuiz()">Refazer Quiz</button>
+  </div>
+</div>
+
+<script>
+const rawQuestions = [
+  {
+    question: "Qual é a causa mais comum de hipercortisolismo na prática clínica?",
+    options: ["Síndrome de Cushing iatrogênica (uso exógeno de corticóide)", "Doença de Cushing (adenoma hipofisário produtor de ACTH)", "Adenoma adrenal produtor de cortisol", "Síndrome do ACTH ectópico por carcinoma pulmonar"],
+    correctIndex: 0,
+    explanation: "A causa mais comum de hipercortisolismo é a exógena — uso prolongado de corticosteroides por qualquer via. Dentre as causas endógenas, a Doença de Cushing (adenoma hipofisário) é a mais frequente (60–70%)."
+  },
+  {
+    question: "A Doença de Cushing é causada por:",
+    options: ["Adenoma hipofisário produtor de ACTH, com cortisol e ACTH elevados — causa ACTH-dependente", "Adenoma adrenal produtor de cortisol, com cortisol elevado e ACTH suprimido", "Tumor ectópico produtor de cortisol com metástases frequentes", "Hiperplasia adrenal bilateral por estímulo autoimune"],
+    correctIndex: 0,
+    explanation: "A Doença de Cushing é o tumor hipofisário (90% microadenomas) produtor de ACTH. O ACTH estimula autonomamente a adrenal → cortisol muito elevado. O cortisol não consegue suprimir o tumor pelo feedback negativo. É a causa endógena mais comum (60–70%), mais frequente em mulheres."
+  },
+  {
+    question: "Qual o padrão laboratorial esperado em um adenoma adrenal produtor de cortisol?",
+    options: ["Cortisol elevado + ACTH suprimido/indetectável + DHEA-S baixo", "Cortisol elevado + ACTH elevado + DHEA-S elevado", "Cortisol normal + ACTH suprimido + cortisol urinário elevado", "Cortisol elevado + ACTH elevado + sem supressão ao DST"],
+    correctIndex: 0,
+    explanation: "O adenoma adrenal produz cortisol autonomamente (ACTH-independente). O cortisol elevado suprime o ACTH por feedback negativo → ACTH fica baixo ou indetectável. O DHEA-S fica baixo pela falta de estimulação adrenal (zona reticular depende de ACTH). Isso diferencia do Cushing ACTH-dependente onde ACTH está elevado."
+  },
+  {
+    question: "Paciente com hipercortisolismo confirmado e ACTH de 95 pg/mL. A RM de hipófise não mostra tumor. Qual o próximo passo?",
+    options: ["Cateterismo dos seios petrosos inferiores para diferenciar fonte hipofisária de ectópica", "TC de adrenais para excluir adenoma bilateral", "Iniciar tratamento com cetoconazol enquanto se aguarda nova RM", "Teste de supressão com dexametasona em altas doses (8 mg)"],
+    correctIndex: 0,
+    explanation: "Com ACTH elevado (dependente) e RM negativa, o cateterismo dos seios petrosos inferiores (CSPI) é o próximo passo. Se ACTH no seio petroso >2× o ACTH periférico → fonte hipofisária (microadenoma não visualizado). Se sem gradiente → fonte ectópica (TC tórax/abdômen)."
+  },
+  {
+    question: "Quais são os achados físicos mais específicos da Síndrome de Cushing que a diferenciam de obesidade comum?",
+    options: ["Estrias violáceas largas (≥1 cm), equimoses espontâneas e fraqueza muscular proximal", "Obesidade centrípeta, hipertensão e intolerância à glicose", "Fácies em lua cheia, giba dorsocervical e pletora facial", "Hirsutismo, acne e oligomenorreia"],
+    correctIndex: 0,
+    explanation: "Estrias violáceas largas (≥1 cm), equimoses espontâneas sem trauma significativo e fraqueza muscular proximal são os achados mais específicos que sugerem SC em detrimento de obesidade comum. Obesidade centrípeta, HAS e DM são comuns em ambas. Fácies em lua cheia e giba têm especificidade intermediária."
+  },
+  {
+    question: "Para confirmar hipercortisolismo endógeno, quais testes são utilizados e quais seus valores de normalidade?",
+    options: ["Cortisol salivar noturno (<150 ng/dL), DST 1 mg overnight (<1,8 µg/dL às 8h), cortisol livre urinário 24h (<50 µg/dia)", "Cortisol matinal basal (<22 µg/dL), ACTH (<50 pg/mL), DHEA-S (<200 µg/dL)", "Cortisol salivar matinal (<20 ng/dL), TSH normal, ausência de pseudo-Cushing", "Supressão com dexametasona 8 mg overnight (<50% do basal), cortisol urinário (< 100 µg/dia)"],
+    correctIndex: 0,
+    explanation: "Os três testes de triagem são: (1) Cortisol salivar noturno: 2 coletas às 22–23h, VN <150 ng/dL; (2) DST 1 mg overnight: dexametasona às 23h, cortisol às 8h — VN <1,8 µg/dL (>5 = altamente sugestivo); (3) CLU 24h: 2–3 amostras, VN <50 µg/dia. Dois testes alterados confirmam SC."
+  },
+  {
+    question: "Por que a retirada abrupta de corticóide em paciente com SC iatrogênica é perigosa?",
+    options: ["A supressão crônica do eixo HHA impede resposta adequada do córtex adrenal ao estresse — causa insuficiência adrenal aguda", "O rebote de ACTH pode estimular hiperplasia adrenal bilateral rapidamente", "A retirada súbita causa síndrome de abstinência com crises hipertensivas e taquiarritmias", "O cortisol acumulado em tecidos é liberado abruptamente, causando hipercortisolemia de rebote"],
+    correctIndex: 0,
+    explanation: "O uso prolongado de corticóide suprime cronicamente o eixo HHA. A retirada brusca deixa a adrenal sem capacidade de produzir cortisol endógeno (eixo suprimido), causando insuficiência adrenal aguda — potencialmente fatal. A retirada deve ser sempre lenta e gradual."
+  },
+  {
+    question: "Qual o tratamento de 1ª linha da Doença de Cushing (adenoma hipofisário produtor de ACTH)?",
+    options: ["Cirurgia transesfenoidal com reposição de corticóide pós-operatória até recuperação do eixo", "Radioterapia hipofisária fracionada como primeira opção", "Cetoconazol em altas doses até normalização do cortisol", "Adrenalectomia bilateral bilateral como tratamento definitivo"],
+    correctIndex: 0,
+    explanation: "A cirurgia transesfenoidal é o tratamento de 1ª linha, com taxa de remissão de 80–90%. Após a cirurgia, o eixo HHA suprimido pelo tumor precisa de tempo para se recuperar → reposição de corticóide pós-operatória. A recidiva ocorre em ~16% após 3 anos em média."
+  },
+  {
+    question: "O ACTH ectópico tem como causa mais comum qual tumor?",
+    options: ["Carcinoma pulmonar de pequenas células (50% dos casos)", "Carcinoma medular da tireoide", "Tumor carcinoide do timo", "Feocromocitoma"],
+    correctIndex: 0,
+    explanation: "O carcinoma pulmonar de pequenas células é responsável por ~50% dos casos de síndrome do ACTH ectópico. Outros tumores incluem neuroendócrinos pulmonares e pancreáticos (10% cada), carcinoma medular da tireoide (5%), tumores do timo (5%). O ACTH ectópico é mais comum em homens e frequentemente associado a metástases."
+  },
+  {
+    question: "Qual exame é o padrão-ouro para o diagnóstico de insuficiência adrenal?",
+    options: ["Teste de tolerância à insulina (ITT) — avalia pico de cortisol quando glicemia <40 mg/dL", "Dosagem de cortisol basal às 8h isolada", "Teste de estimulação com ACTH (cortrosina) em dose alta", "Dosagem de ACTH plasmático matinal"],
+    correctIndex: 0,
+    explanation: "O ITT é o padrão-ouro: insulina regular IV induz hipoglicemia (<40 mg/dL) e o cortisol deve atingir pico adequado em resposta ao estresse. É contraindicado em crianças, >65 anos, epilepsia, coronariopatia e doença cerebrovascular por risco de hipoglicemia grave."
+  },
+  {
+    question: "Cortisol basal às 8h = 2,5 µg/dL. Qual a interpretação?",
+    options: ["Confirma insuficiência adrenal (cortisol ≤3 µg/dL confirma IA)", "Resultado indeterminado — solicitar teste de tolerância à insulina", "Normal — nenhuma investigação adicional necessária", "Sugere hipercortisolismo leve — rastrear Síndrome de Cushing"],
+    correctIndex: 0,
+    explanation: "Cortisol basal às 8h ≤3 µg/dL confirma insuficiência adrenal sem necessidade de teste adicional. ≥18 µg/dL exclui IA. Entre 3–18 µg/dL é indeterminado (valores >13 raramente ocorrem em IA real). O cortisol matinal é o primeiro teste a ser solicitado na suspeita de IA."
+  },
+  {
+    question: "O que diferencia a insuficiência adrenal primária (Addison) da secundária no exame físico?",
+    options: ["Hiperpigmentação cutânea e mucosa — presente apenas na IA primária pelo ACTH elevado", "Hipotensão postural — presente apenas na IA secundária", "Hipoglicemia mais grave — exclusiva da IA primária", "Fraqueza muscular mais intensa — exclusiva da IA secundária"],
+    correctIndex: 0,
+    explanation: "Na IA primária, o ACTH fica muito elevado (perda do feedback negativo pelo cortisol). O ACTH tem homologia estrutural com o MSH (hormônio estimulador de melanócito), causando hiperpigmentação em áreas expostas ao sol, dobras e mucosas. Na IA secundária, o ACTH está baixo — sem hiperpigmentação."
+  },
+  {
+    question: "Qual é a principal causa de insuficiência adrenal secundária?",
+    options: ["Uso crônico de corticóide exógeno com supressão do eixo HHA", "Tuberculose com destruição do córtex adrenal bilateral", "Tumor hipofisário não funcionante com compressão da hipófise", "Apoplexia hipofisária aguda com necrose"],
+    correctIndex: 0,
+    explanation: "A IA secundária responde por 60% dos casos de IA total. A principal causa é o uso crônico de corticóide exógeno que suprime o eixo HHA — após a retirada, o eixo demora meses para se recuperar. Outras causas incluem tumor hipofisário, trauma e apoplexia hipofisária."
+  },
+  {
+    question: "Mulher de 28 anos sem uso de corticóide. ACTH 4 pg/mL (VN: 6–50), cortisol urinário 24h de 180 µg/dia, DHEA-S baixo. TC de adrenais mostra nódulo de 2 cm à esquerda. Diagnóstico?",
+    options: ["Adenoma adrenal produtor de cortisol — SC ACTH-independente", "Doença de Cushing por microadenoma hipofisário não visualizado", "Síndrome do ACTH ectópico com tumor adrenal incidental", "Hiperplasia adrenal bilateral por estimulação autoimune"],
+    correctIndex: 0,
+    explanation: "ACTH suprimido (<6 pg/mL) + DHEA-S baixo + hipercortisolismo = ACTH-independente → TC de adrenais. Nódulo unilateral com cortisol elevado = adenoma adrenal produtor de cortisol. Tratamento: adrenalectomia com reposição de corticóide pós-operatória até o eixo contralateral se recuperar."
+  },
+  {
+    question: "Qual exame de imagem localiza a fonte em SC ACTH-dependente quando a RM hipofisária é negativa e o cateterismo dos seios petrosos inferiores não mostra gradiente?",
+    options: ["TC de tórax e abdômen para buscar tumor ectópico (pulmão, pâncreas, timo)", "PET/CT com FDG para rastrear metástases adrenais", "Cintilografia de adrenal com colesterol marcado", "USG de abdômen com Doppler para avaliar vascularização adrenal"],
+    correctIndex: 0,
+    explanation: "Sem gradiente no cateterismo dos seios petrosos → fonte ectópica. TC de tórax e abdômen busca os tumores mais comuns: carcinoma pulmonar de pequenas células, neuroendócrinos pulmonares/pancreáticos, carcinoma medular da tireoide. PET/CT com Ga68-somatostatina ou F18-DOPA pode ser usado para tumores neuroendócrinos não visualizados na TC."
+  },
+  {
+    question: "Paciente com SC iatrogênica confirmada. Qual a conduta correta?",
+    options: ["Suspender o corticóide de forma lenta e gradual, monitorando sinais de insuficiência adrenal", "Iniciar cetoconazol para inibir a cascata adrenal antes de suspender o corticóide", "Suspender o corticóide imediatamente e prescrever hidrocortisona de reposição por 48h", "Manter o corticóide indefinidamente para evitar a crise de Addison"],
+    correctIndex: 0,
+    explanation: "Na SC iatrogênica, a causa é o corticóide exógeno — deve ser retirado, mas sempre lenta e gradualmente para permitir a recuperação do eixo HHA suprimido. A suspensão abrupta causa insuficiência adrenal aguda. Cetoconazol não é necessário — o problema é o exógeno, não a produção endógena."
+  },
+  {
+    question: "Hipocalemia intensa + hiperpigmentação + hipercortisolismo grave: qual causa de SC deve ser fortemente suspeitada?",
+    options: ["Síndrome do ACTH ectópico (ex.: carcinoma pulmonar de pequenas células)", "Doença de Cushing por microadenoma hipofisário", "Adenoma adrenal benigno produtor de cortisol", "SC iatrogênica por corticóide inalatório em altas doses"],
+    correctIndex: 0,
+    explanation: "O ACTH ectópico tipicamente causa hipercortisolismo muito intenso (elevação abrupta e alta de cortisol) com hipocalemia marcada (cortisol em excesso tem efeito mineralocorticoide). A hiperpigmentação ocorre pelo ACTH muito elevado. Homens com massa pulmonar suspeita devem levar a esse diagnóstico."
+  },
+  {
+    question: "Qual a posologia correta de reposição de corticóide na insuficiência adrenal?",
+    options: ["Hidrocortisona 15–25 mg/dia dividida em 2–3 doses, maior pela manhã; na IA primária adicionar fludrocortisona 0,05–0,1 mg/dia", "Prednisona 40 mg/dia em dose única à noite para simular o pico noturno de cortisol", "Hidrocortisona 100 mg/dia em dose única matinal, reduzida após 30 dias", "Dexametasona 4 mg/dia como única opção por sua meia-vida longa"],
+    correctIndex: 0,
+    explanation: "A reposição fisiológica é com hidrocortisona 15–25 mg/dia (2–3×/dia, maior dose pela manhã para simular o ritmo circadiano). Na IA primária (Addison), a aldosterona também está deficiente → adicionar fludrocortisona (mineralocorticoide). Na IA secundária, a fludrocortisona geralmente não é necessária (eixo renina-aldosterona preservado)."
+  },
+  {
+    question: "Em crianças, qual manifestação da SC é especialmente marcante e diferente dos adultos?",
+    options: ["Interrupção do crescimento linear com ganho de peso — crescimento em altura para e a criança engorda", "Hirsutismo grave com virilização precoce pelo excesso de andrógenos adrenais", "Acne grave e equimoses extensas antes mesmo das outras manifestações", "Hipoglicemia de jejum grave pela supressão do glucagon"],
+    correctIndex: 0,
+    explanation: "Em crianças, o excesso de cortisol inibe o GH e o IGF-1, interrompendo o crescimento longitudinal (altura). Ao mesmo tempo, a criança ganha peso — a combinação de criança parando de crescer em altura mas engordando deve sempre levantar suspeita de SC."
+  },
+  {
+    question: "O que é Pseudo-Cushing e qual sua relevância clínica?",
+    options: ["Condições que elevam levemente o cortisol sem SC verdadeira (alcoolismo, depressão, obesidade grave), gerando falsos positivos nos testes de triagem", "Hipercortisolismo transitório por adenoma hipofisário cíclico que se resolve espontaneamente", "SC subclínica com cortisol urinário normal mas salivar noturno levemente elevado", "Insuficiência adrenal mascarada por terapia estrogênica que eleva o cortisol total"],
+    correctIndex: 0,
+    explanation: "Pseudo-Cushing (ou Cushing funcional) ocorre em: alcoolismo, gravidez, depressão maior, anorexia nervosa, obesidade severa, estresse agudo grave, uso de anti-retrovirais, droga GHB. Nesses estados, o eixo HHA pode estar ativado, elevando levemente o cortisol — gerando falsos positivos. A diferenciação exige avaliação clínica cuidadosa e, às vezes, testes adicionais."
+  },
+  {
+    question: "Mulher de 35 anos com cortisol de 41 µg/dL (VN <22,5) em uso de anticoncepcional. Ao exame físico, sem estigmas de Cushing e IMC 24. O que provavelmente explica o resultado?",
+    options: ["Aumento da CBG pelo estrógeno do anticoncepcional elevando o cortisol total, sem hipercortisolismo real", "Pseudo-Cushing por depressão associada ao anticoncepcional", "Adenoma adrenal incidental não relacionado ao anticoncepcional", "Síndrome de Cushing cíclica com exacerbação no período da pílula"],
+    correctIndex: 0,
+    explanation: "O estrógeno aumenta a produção hepática de CBG (cortisol-binding globulin), elevando o cortisol TOTAL dosado. O cortisol livre (biologicamente ativo) permanece normal. A paciente é assintomática e sem estigmas — não é Cushing. Conduta: dosar cortisol livre urinário ou cortisol salivar noturno (refletem fração livre), não o cortisol sérico total."
+  },
+  {
+    question: "Qual medicamento de 2ª linha para Doença de Cushing inibe a cascata enzimática adrenal?",
+    options: ["Cetoconazol — inibe enzimas da esteroidogênese adrenal, reduzindo produção de cortisol", "Pasireotida — análogo da somatostatina que inibe a secreção de ACTH pelo tumor hipofisário", "Mitotano — destrói o tecido adrenal, indicado principalmente no carcinoma", "Metirapona — inibe a 11β-hidroxilase, bloqueando etapa final da síntese de cortisol"],
+    correctIndex: 0,
+    explanation: "Cetoconazol inibe múltiplas enzimas da cascata esteroidogênica adrenal (P450scc, 11β-hidroxilase, 17α-hidroxilase), reduzindo a produção de cortisol. É usado como 2ª linha na Doença de Cushing. A pasireotida (análogo da somatostatina) age no tumor hipofisário reduzindo a secreção de ACTH. O mitotano é adrenolítico, usado no carcinoma adrenal."
+  }
+];
+
+function shuffleQuestion(q) {
+  const correctText = q.options[q.correctIndex];
+  const shuffled = [...q.options];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return { ...q, options: shuffled, correctIndex: shuffled.indexOf(correctText) };
+}
+
+let questions = [];
+let current = 0;
+let score = 0;
+
+function startQuiz() {
+  questions = rawQuestions.map(shuffleQuestion).sort(() => Math.random() - 0.5);
+  current = 0; score = 0;
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('quizArea').style.display = 'block';
+  document.getElementById('scoreDenom').textContent = 'de ' + questions.length;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  const total = questions.length;
+  document.getElementById('progressBar').style.width = ((current / total) * 100) + '%';
+  document.getElementById('progressLabel').textContent = 'Questão ' + (current + 1) + ' de ' + total;
+  document.getElementById('questionNumber').textContent = 'Questão ' + (current + 1);
+  document.getElementById('questionText').textContent = q.question;
+  const expl = document.getElementById('explanation');
+  expl.className = 'explanation';
+  expl.textContent = '';
+  const btn = document.getElementById('btnNext');
+  btn.className = 'btn-next';
+  btn.textContent = current === total - 1 ? 'Ver resultado' : 'Próxima questão →';
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'option-btn';
+    b.textContent = opt;
+    b.onclick = () => selectAnswer(i);
+    container.appendChild(b);
+  });
+}
+
+function selectAnswer(selected) {
+  const q = questions[current];
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(b => b.disabled = true);
+  buttons[selected].classList.add(selected === q.correctIndex ? 'correct' : 'wrong');
+  if (selected !== q.correctIndex) buttons[q.correctIndex].classList.add('correct');
+  if (selected === q.correctIndex) score++;
+  const expl = document.getElementById('explanation');
+  expl.textContent = q.explanation;
+  expl.className = 'explanation show';
+  document.getElementById('btnNext').className = 'btn-next show';
+}
+
+function nextQuestion() {
+  current++;
+  if (current < questions.length) { renderQuestion(); }
+  else { showResult(); }
+}
+
+function showResult() {
+  document.getElementById('quizArea').style.display = 'none';
+  const rs = document.getElementById('resultScreen');
+  rs.style.display = 'block';
+  const pct = Math.round((score / questions.length) * 100);
+  document.getElementById('scoreFinal').textContent = score;
+  document.getElementById('statCorrect').textContent = score;
+  document.getElementById('statWrong').textContent = questions.length - score;
+  document.getElementById('statPct').textContent = pct + '%';
+  let title, msg;
+  if (pct >= 90) { title = 'Excelente!'; msg = 'Domínio sólido do tema. Continue assim!'; }
+  else if (pct >= 70) { title = 'Muito bom!'; msg = 'Bom desempenho. Revise os pontos errados.'; }
+  else if (pct >= 50) { title = 'Regular'; msg = 'Revise o relatório e refaça o quiz.'; }
+  else { title = 'Precisa revisar'; msg = 'Releia o material com atenção antes de tentar novamente.'; }
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultMsg').textContent = msg;
+}
+
+function restartQuiz() {
+  document.getElementById('resultScreen').style.display = 'none';
+  startQuiz();
+}
+</script>
+</body>
+</html>
