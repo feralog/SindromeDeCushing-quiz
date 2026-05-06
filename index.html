@@ -94,13 +94,13 @@
 const rawQuestions = [
   {
     question: "Qual é a causa mais comum de hipercortisolismo na prática clínica?",
-    options: ["Síndrome de Cushing iatrogênica (uso exógeno de corticóide)", "Doença de Cushing (adenoma hipofisário produtor de ACTH)", "Adenoma adrenal produtor de cortisol", "Síndrome do ACTH ectópico por carcinoma pulmonar"],
+    options: ["SC iatrogênica (corticóide exógeno, mais comum)", "Doença de Cushing (adenoma hipofisário, ACTH+)", "Adenoma adrenal produtor de cortisol (ACTH-)", "Síndrome do ACTH ectópico por Ca pulmonar"],
     correctIndex: 0,
     explanation: "A causa mais comum de hipercortisolismo é a exógena — uso prolongado de corticosteroides por qualquer via. Dentre as causas endógenas, a Doença de Cushing (adenoma hipofisário) é a mais frequente (60–70%)."
   },
   {
     question: "A Doença de Cushing é causada por:",
-    options: ["Adenoma hipofisário produtor de ACTH, com cortisol e ACTH elevados — causa ACTH-dependente", "Adenoma adrenal produtor de cortisol, com cortisol elevado e ACTH suprimido", "Tumor ectópico produtor de cortisol com metástases frequentes", "Hiperplasia adrenal bilateral por estímulo autoimune"],
+    options: ["Adenoma hipofisário produtor de ACTH (ACTH e cortisol elevados)", "Adenoma adrenal: cortisol elevado e ACTH suprimido", "Tumor ectópico produtor de cortisol com metástases frequentes", "Hiperplasia adrenal bilateral por estímulo autoimune"],
     correctIndex: 0,
     explanation: "A Doença de Cushing é o tumor hipofisário (90% microadenomas) produtor de ACTH. O ACTH estimula autonomamente a adrenal → cortisol muito elevado. O cortisol não consegue suprimir o tumor pelo feedback negativo. É a causa endógena mais comum (60–70%), mais frequente em mulheres."
   },
@@ -112,43 +112,43 @@ const rawQuestions = [
   },
   {
     question: "Paciente com hipercortisolismo confirmado e ACTH de 95 pg/mL. A RM de hipófise não mostra tumor. Qual o próximo passo?",
-    options: ["Cateterismo dos seios petrosos inferiores para diferenciar fonte hipofisária de ectópica", "TC de adrenais para excluir adenoma bilateral", "Iniciar tratamento com cetoconazol enquanto se aguarda nova RM", "Teste de supressão com dexametasona em altas doses (8 mg)"],
+    options: ["Cateterismo dos seios petrosos para diferenciar fonte", "TC de adrenais para excluir adenoma bilateral", "Iniciar cetoconazol enquanto se aguarda nova RM", "Teste de supressão com dexametasona em altas doses (8 mg)"],
     correctIndex: 0,
     explanation: "Com ACTH elevado (dependente) e RM negativa, o cateterismo dos seios petrosos inferiores (CSPI) é o próximo passo. Se ACTH no seio petroso >2× o ACTH periférico → fonte hipofisária (microadenoma não visualizado). Se sem gradiente → fonte ectópica (TC tórax/abdômen)."
   },
   {
     question: "Quais são os achados físicos mais específicos da Síndrome de Cushing que a diferenciam de obesidade comum?",
-    options: ["Estrias violáceas largas (≥1 cm), equimoses espontâneas e fraqueza muscular proximal", "Obesidade centrípeta, hipertensão e intolerância à glicose", "Fácies em lua cheia, giba dorsocervical e pletora facial", "Hirsutismo, acne e oligomenorreia"],
+    options: ["Estrias violáceas ≥1 cm, equimoses e fraqueza proximal", "Obesidade centrípeta, HAS e intolerância à glicose", "Fácies em lua cheia, giba dorsocervical e pletora", "Hirsutismo, acne e oligomenorreia (hiperandrogenismo)"],
     correctIndex: 0,
     explanation: "Estrias violáceas largas (≥1 cm), equimoses espontâneas sem trauma significativo e fraqueza muscular proximal são os achados mais específicos que sugerem SC em detrimento de obesidade comum. Obesidade centrípeta, HAS e DM são comuns em ambas. Fácies em lua cheia e giba têm especificidade intermediária."
   },
   {
     question: "Para confirmar hipercortisolismo endógeno, quais testes são utilizados e quais seus valores de normalidade?",
-    options: ["Cortisol salivar noturno (<150 ng/dL), DST 1 mg overnight (<1,8 µg/dL às 8h), cortisol livre urinário 24h (<50 µg/dia)", "Cortisol matinal basal (<22 µg/dL), ACTH (<50 pg/mL), DHEA-S (<200 µg/dL)", "Cortisol salivar matinal (<20 ng/dL), TSH normal, ausência de pseudo-Cushing", "Supressão com dexametasona 8 mg overnight (<50% do basal), cortisol urinário (< 100 µg/dia)"],
+    options: ["Salivar noturno (<150 ng/dL), DST 1 mg (<1,8 µg/dL às 8h), CLU 24h (<50 µg/dia)", "Cortisol matinal basal (<22 µg/dL), ACTH (<50 pg/mL), DHEA-S (<200 µg/dL)", "Cortisol salivar matinal (<20 ng/dL), TSH normal, ausência de pseudo-Cushing", "Supressão com dexametasona 8 mg overnight (<50% do basal), cortisol urinário (< 100 µg/dia)"],
     correctIndex: 0,
     explanation: "Os três testes de triagem são: (1) Cortisol salivar noturno: 2 coletas às 22–23h, VN <150 ng/dL; (2) DST 1 mg overnight: dexametasona às 23h, cortisol às 8h — VN <1,8 µg/dL (>5 = altamente sugestivo); (3) CLU 24h: 2–3 amostras, VN <50 µg/dia. Dois testes alterados confirmam SC."
   },
   {
     question: "Por que a retirada abrupta de corticóide em paciente com SC iatrogênica é perigosa?",
-    options: ["A supressão crônica do eixo HHA impede resposta adequada do córtex adrenal ao estresse — causa insuficiência adrenal aguda", "O rebote de ACTH pode estimular hiperplasia adrenal bilateral rapidamente", "A retirada súbita causa síndrome de abstinência com crises hipertensivas e taquiarritmias", "O cortisol acumulado em tecidos é liberado abruptamente, causando hipercortisolemia de rebote"],
+    options: ["Supressão crônica do eixo HHA impede cortisol endógeno ao estresse — insuficiência adrenal aguda", "O rebote de ACTH pode estimular hiperplasia adrenal bilateral rapidamente", "A retirada súbita causa síndrome de abstinência com crises hipertensivas e taquiarritmias", "O cortisol acumulado em tecidos é liberado abruptamente, causando hipercortisolemia de rebote"],
     correctIndex: 0,
     explanation: "O uso prolongado de corticóide suprime cronicamente o eixo HHA. A retirada brusca deixa a adrenal sem capacidade de produzir cortisol endógeno (eixo suprimido), causando insuficiência adrenal aguda — potencialmente fatal. A retirada deve ser sempre lenta e gradual."
   },
   {
     question: "Qual o tratamento de 1ª linha da Doença de Cushing (adenoma hipofisário produtor de ACTH)?",
-    options: ["Cirurgia transesfenoidal com reposição de corticóide pós-operatória até recuperação do eixo", "Radioterapia hipofisária fracionada como primeira opção", "Cetoconazol em altas doses até normalização do cortisol", "Adrenalectomia bilateral bilateral como tratamento definitivo"],
+    options: ["Cirurgia transesfenoidal + reposição de corticóide pós-operatória", "Radioterapia hipofisária fracionada como primeira opção", "Cetoconazol em altas doses até normalização do cortisol", "Adrenalectomia bilateral bilateral como tratamento definitivo"],
     correctIndex: 0,
     explanation: "A cirurgia transesfenoidal é o tratamento de 1ª linha, com taxa de remissão de 80–90%. Após a cirurgia, o eixo HHA suprimido pelo tumor precisa de tempo para se recuperar → reposição de corticóide pós-operatória. A recidiva ocorre em ~16% após 3 anos em média."
   },
   {
     question: "O ACTH ectópico tem como causa mais comum qual tumor?",
-    options: ["Carcinoma pulmonar de pequenas células (50% dos casos)", "Carcinoma medular da tireoide", "Tumor carcinoide do timo", "Feocromocitoma"],
+    options: ["Carcinoma pulmonar de pequenas células (causa mais comum, 50%)", "Carcinoma medular da tireoide (causa incomum, 5% dos casos)", "Tumor carcinoide do timo (causa rara, ~5% dos ectópicos)", "Feocromocitoma (causa muito rara, <2% dos ACTH ectópicos)"],
     correctIndex: 0,
     explanation: "O carcinoma pulmonar de pequenas células é responsável por ~50% dos casos de síndrome do ACTH ectópico. Outros tumores incluem neuroendócrinos pulmonares e pancreáticos (10% cada), carcinoma medular da tireoide (5%), tumores do timo (5%). O ACTH ectópico é mais comum em homens e frequentemente associado a metástases."
   },
   {
     question: "Qual exame é o padrão-ouro para o diagnóstico de insuficiência adrenal?",
-    options: ["Teste de tolerância à insulina (ITT) — avalia pico de cortisol quando glicemia <40 mg/dL", "Dosagem de cortisol basal às 8h isolada", "Teste de estimulação com ACTH (cortrosina) em dose alta", "Dosagem de ACTH plasmático matinal"],
+    options: ["Teste de tolerância à insulina (ITT) — padrão-ouro para diagnóstico de IA", "Cortisol basal às 8h — triagem inicial, não confirma IA", "Estimulação com ACTH (cortrosina) — alternativa ao ITT", "ACTH plasmático matinal — localiza a lesão (1ª vs 2ª)"],
     correctIndex: 0,
     explanation: "O ITT é o padrão-ouro: insulina regular IV induz hipoglicemia (<40 mg/dL) e o cortisol deve atingir pico adequado em resposta ao estresse. É contraindicado em crianças, >65 anos, epilepsia, coronariopatia e doença cerebrovascular por risco de hipoglicemia grave."
   },
@@ -160,13 +160,13 @@ const rawQuestions = [
   },
   {
     question: "O que diferencia a insuficiência adrenal primária (Addison) da secundária no exame físico?",
-    options: ["Hiperpigmentação cutânea e mucosa — presente apenas na IA primária pelo ACTH elevado", "Hipotensão postural — presente apenas na IA secundária", "Hipoglicemia mais grave — exclusiva da IA primária", "Fraqueza muscular mais intensa — exclusiva da IA secundária"],
+    options: ["Hiperpigmentação cutânea e mucosa — exclusiva da IA primária", "Hipotensão postural — presente apenas na IA secundária", "Hipoglicemia mais grave — exclusiva da IA primária", "Fraqueza muscular mais intensa — exclusiva da IA secundária"],
     correctIndex: 0,
     explanation: "Na IA primária, o ACTH fica muito elevado (perda do feedback negativo pelo cortisol). O ACTH tem homologia estrutural com o MSH (hormônio estimulador de melanócito), causando hiperpigmentação em áreas expostas ao sol, dobras e mucosas. Na IA secundária, o ACTH está baixo — sem hiperpigmentação."
   },
   {
     question: "Qual é a principal causa de insuficiência adrenal secundária?",
-    options: ["Uso crônico de corticóide exógeno com supressão do eixo HHA", "Tuberculose com destruição do córtex adrenal bilateral", "Tumor hipofisário não funcionante com compressão da hipófise", "Apoplexia hipofisária aguda com necrose"],
+    options: ["Uso crônico de corticóide exógeno com supressão do eixo HHA", "Tuberculose com destruição do córtex adrenal bilateral", "Tumor hipofisário não funcionante com compressão da hipófise", "Apoplexia hipofisária aguda com hemorragia e necrose hipofisária"],
     correctIndex: 0,
     explanation: "A IA secundária responde por 60% dos casos de IA total. A principal causa é o uso crônico de corticóide exógeno que suprime o eixo HHA — após a retirada, o eixo demora meses para se recuperar. Outras causas incluem tumor hipofisário, trauma e apoplexia hipofisária."
   },
@@ -178,43 +178,43 @@ const rawQuestions = [
   },
   {
     question: "Qual exame de imagem localiza a fonte em SC ACTH-dependente quando a RM hipofisária é negativa e o cateterismo dos seios petrosos inferiores não mostra gradiente?",
-    options: ["TC de tórax e abdômen para buscar tumor ectópico (pulmão, pâncreas, timo)", "PET/CT com FDG para rastrear metástases adrenais", "Cintilografia de adrenal com colesterol marcado", "USG de abdômen com Doppler para avaliar vascularização adrenal"],
+    options: ["TC de tórax/abdômen para tumor ectópico (pulmão, pâncreas)", "PET/CT com FDG para rastrear metástases adrenais", "Cintilografia de adrenal com colesterol marcado", "USG de abdômen com Doppler para avaliar vascularização adrenal"],
     correctIndex: 0,
     explanation: "Sem gradiente no cateterismo dos seios petrosos → fonte ectópica. TC de tórax e abdômen busca os tumores mais comuns: carcinoma pulmonar de pequenas células, neuroendócrinos pulmonares/pancreáticos, carcinoma medular da tireoide. PET/CT com Ga68-somatostatina ou F18-DOPA pode ser usado para tumores neuroendócrinos não visualizados na TC."
   },
   {
     question: "Paciente com SC iatrogênica confirmada. Qual a conduta correta?",
-    options: ["Suspender o corticóide de forma lenta e gradual, monitorando sinais de insuficiência adrenal", "Iniciar cetoconazol para inibir a cascata adrenal antes de suspender o corticóide", "Suspender o corticóide imediatamente e prescrever hidrocortisona de reposição por 48h", "Manter o corticóide indefinidamente para evitar a crise de Addison"],
+    options: ["Suspender o corticóide lentamente, monitorando insuficiência adrenal", "Iniciar cetoconazol para inibir cascata adrenal antes de suspender", "Suspender o corticóide imediatamente + hidrocortisona por 48h", "Manter o corticóide indefinidamente para evitar a crise de Addison"],
     correctIndex: 0,
     explanation: "Na SC iatrogênica, a causa é o corticóide exógeno — deve ser retirado, mas sempre lenta e gradualmente para permitir a recuperação do eixo HHA suprimido. A suspensão abrupta causa insuficiência adrenal aguda. Cetoconazol não é necessário — o problema é o exógeno, não a produção endógena."
   },
   {
     question: "Hipocalemia intensa + hiperpigmentação + hipercortisolismo grave: qual causa de SC deve ser fortemente suspeitada?",
-    options: ["Síndrome do ACTH ectópico (ex.: carcinoma pulmonar de pequenas células)", "Doença de Cushing por microadenoma hipofisário", "Adenoma adrenal benigno produtor de cortisol", "SC iatrogênica por corticóide inalatório em altas doses"],
+    options: ["Síndrome do ACTH ectópico (Ca pulmão de pequenas células)", "Doença de Cushing por microadenoma hipofisário", "Adenoma adrenal benigno produtor de cortisol", "SC iatrogênica por corticóide inalatório em altas doses"],
     correctIndex: 0,
     explanation: "O ACTH ectópico tipicamente causa hipercortisolismo muito intenso (elevação abrupta e alta de cortisol) com hipocalemia marcada (cortisol em excesso tem efeito mineralocorticoide). A hiperpigmentação ocorre pelo ACTH muito elevado. Homens com massa pulmonar suspeita devem levar a esse diagnóstico."
   },
   {
     question: "Qual a posologia correta de reposição de corticóide na insuficiência adrenal?",
-    options: ["Hidrocortisona 15–25 mg/dia dividida em 2–3 doses, maior pela manhã; na IA primária adicionar fludrocortisona 0,05–0,1 mg/dia", "Prednisona 40 mg/dia em dose única à noite para simular o pico noturno de cortisol", "Hidrocortisona 100 mg/dia em dose única matinal, reduzida após 30 dias", "Dexametasona 4 mg/dia como única opção por sua meia-vida longa"],
+    options: ["Hidrocortisona 15–25 mg/dia (manhã maior); + fludrocortisona na IA primária", "Prednisona 40 mg/dia em dose única à noite (simula pico noturno)", "Hidrocortisona 100 mg/dia em dose única matinal, reduzida após 30 dias", "Dexametasona 4 mg/dia como única opção por sua meia-vida longa"],
     correctIndex: 0,
     explanation: "A reposição fisiológica é com hidrocortisona 15–25 mg/dia (2–3×/dia, maior dose pela manhã para simular o ritmo circadiano). Na IA primária (Addison), a aldosterona também está deficiente → adicionar fludrocortisona (mineralocorticoide). Na IA secundária, a fludrocortisona geralmente não é necessária (eixo renina-aldosterona preservado)."
   },
   {
     question: "Em crianças, qual manifestação da SC é especialmente marcante e diferente dos adultos?",
-    options: ["Interrupção do crescimento linear com ganho de peso — crescimento em altura para e a criança engorda", "Hirsutismo grave com virilização precoce pelo excesso de andrógenos adrenais", "Acne grave e equimoses extensas antes mesmo das outras manifestações", "Hipoglicemia de jejum grave pela supressão do glucagon"],
+    options: ["Estagnação do crescimento em altura com ganho de peso — sinal mais característico", "Hirsutismo grave com virilização precoce por excesso de andrógenos adrenais", "Acne grave e equimoses extensas antes das outras manifestações clínicas", "Hipoglicemia de jejum grave pela supressão de glucagon e GH adrenal"],
     correctIndex: 0,
     explanation: "Em crianças, o excesso de cortisol inibe o GH e o IGF-1, interrompendo o crescimento longitudinal (altura). Ao mesmo tempo, a criança ganha peso — a combinação de criança parando de crescer em altura mas engordando deve sempre levantar suspeita de SC."
   },
   {
     question: "O que é Pseudo-Cushing e qual sua relevância clínica?",
-    options: ["Condições que elevam levemente o cortisol sem SC verdadeira (alcoolismo, depressão, obesidade grave), gerando falsos positivos nos testes de triagem", "Hipercortisolismo transitório por adenoma hipofisário cíclico que se resolve espontaneamente", "SC subclínica com cortisol urinário normal mas salivar noturno levemente elevado", "Insuficiência adrenal mascarada por terapia estrogênica que eleva o cortisol total"],
+    options: ["Elevação leve do cortisol sem SC real — alcoolismo, depressão, obesidade grave", "Hipercortisolismo transitório por adenoma hipofisário cíclico que se resolve espontaneamente", "SC subclínica com cortisol urinário normal mas salivar noturno levemente elevado", "Insuficiência adrenal mascarada por terapia estrogênica que eleva o cortisol total"],
     correctIndex: 0,
     explanation: "Pseudo-Cushing (ou Cushing funcional) ocorre em: alcoolismo, gravidez, depressão maior, anorexia nervosa, obesidade severa, estresse agudo grave, uso de anti-retrovirais, droga GHB. Nesses estados, o eixo HHA pode estar ativado, elevando levemente o cortisol — gerando falsos positivos. A diferenciação exige avaliação clínica cuidadosa e, às vezes, testes adicionais."
   },
   {
     question: "Mulher de 35 anos com cortisol de 41 µg/dL (VN <22,5) em uso de anticoncepcional. Ao exame físico, sem estigmas de Cushing e IMC 24. O que provavelmente explica o resultado?",
-    options: ["Aumento da CBG pelo estrógeno do anticoncepcional elevando o cortisol total, sem hipercortisolismo real", "Pseudo-Cushing por depressão associada ao anticoncepcional", "Adenoma adrenal incidental não relacionado ao anticoncepcional", "Síndrome de Cushing cíclica com exacerbação no período da pílula"],
+    options: ["Estrógeno eleva CBG, aumentando cortisol total sem hipercortisolismo real", "Pseudo-Cushing por depressão associada ao anticoncepcional", "Adenoma adrenal incidental não relacionado ao anticoncepcional", "Síndrome de Cushing cíclica com exacerbação no período da pílula"],
     correctIndex: 0,
     explanation: "O estrógeno aumenta a produção hepática de CBG (cortisol-binding globulin), elevando o cortisol TOTAL dosado. O cortisol livre (biologicamente ativo) permanece normal. A paciente é assintomática e sem estigmas — não é Cushing. Conduta: dosar cortisol livre urinário ou cortisol salivar noturno (refletem fração livre), não o cortisol sérico total."
   },
